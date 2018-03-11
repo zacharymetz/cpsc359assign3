@@ -58,13 +58,13 @@ main:
 	str		r0, [r1]
 
 //init Data
-  mov r0, #9 //pin
-  mov r1, #1
+  mov r0, #10 //pin
+  mov r1, #0
   bl Init_GPIO
 
 //init Latch
-  mov r0, #10 //pin
-  mov r1, #0
+  mov r0, #9 //pin
+  mov r1, #1
   bl Init_GPIO
 
 //init Clock
@@ -88,11 +88,21 @@ Init_GPIO:
 
   mov pc, lr //ret
 
+Read_Data:
+  mov r0, #10 //data pin
+  ldr r1, =gpioBaseAddress
+  ldr r1, [r1, #52] //GPLEV0
+  mov r3, #1
+  lsl r3, r0 //align to Data (pin 10)
+  and r1, r3 //mask everything
+  teq r1, #0
+  moveq r4, #0 //return 0
+  movne r4, #1 //return 1
 
+  mov r4, r0
+  mov pc, lr //ret
 
-
-
-
+Read_SNES:
   mov pc, lr //ret
 
 
