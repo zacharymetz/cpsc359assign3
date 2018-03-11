@@ -48,8 +48,19 @@ ButtonLeft:
 .align 4
 .global main
 main:
+  gBase	.req	r7
+
   ldr r0, =Names
   bl printf
+
+  bl		getGpioPtr
+	ldr		r1, =gpioBaseAddress
+	str		r0, [r1]
+
+  ldr		r0, =gpioBaseAddress
+  ldr		gBase, [r0]
+
+  
 
 
 
@@ -57,3 +68,9 @@ main:
 
 HaltLoop:
   b HaltLoop
+
+.section .Data
+
+  .global gpioBaseAddress
+  gpioBaseAddress:
+  	.int	0
