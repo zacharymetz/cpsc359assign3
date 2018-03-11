@@ -10,39 +10,40 @@ InputResultPre:
   .asciz "You have pressed "
 
 JoyPadRight:
-  .asciz "Joy-pad RIGHT"
+  .asciz "Joy-pad RIGHT\n"
 
 JoyPadLeft:
-  .asciz "Joy-pad LEFT"
+  .asciz "Joy-pad LEFT\n"
 
 JoyPadUpt:
-.asciz "Joy-pad UP"
+.asciz "Joy-pad UP\n"
 
 JoyPadDown:
-  .asciz "Joy-pad DOWN"
+  .asciz "Joy-pad DOWN\n"
 
 ButtonX:
-  .asciz "X"
+  .asciz "X\n"
+
 ButtonY:
-  .asciz "Y"
+  .asciz "Y\n"
 
 ButtonA:
-  .asciz "A"
+  .asciz "A\n"
 
 ButtonB:
-  .asciz "B"
+  .asciz "B\n"
 
 ButtonStart:
-.asciz "Start"
+.asciz "Start\n"
 
 ButtonSelect:
-  .asciz "Select"
+  .asciz "Select\n"
 
 ButtonRight:
-.asciz "RIGHT bumper"
+.asciz "RIGHT bumper\n"
 
 ButtonLeft:
-  .asciz "LEFT bumper"
+  .asciz "LEFT bumper\n"
 
 .align 4
 .global main
