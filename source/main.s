@@ -72,45 +72,53 @@ main:
   mov r1, #1
   bl Init_GPIO
 
+  mov r0, #12
+  bl delayMicroseconds
+
+  b haltLoop
+
 Init_GPIO:
   mov r3, r0 //move pin number to r3
-  div r0, #10
-  mul r0, #4
+
+  mov r10, #10
+  sdiv r0, r10
+  mov r10, #4
+  mul r0, r10
 
   ldr	r7, =gpioBaseAddress
   ldr	gBase, [r7]
   add gBase, gBase, r0
 
   mov r2, #7 //b0111
-  mul r3, #3 //multiply by 3 for first bit
+
+  mov r10, #3
+  mul r3, r10 //multiply by 3 for first bit
   lsl r2, r3
   bic gBase, r2
 
   mov pc, lr //ret
 
 Read_Data:
-  mov r0, #10 //data pin
+  //mov r0, #10 //data pin
+  mov r0, #1
+
   ldr r1, =gpioBaseAddress
   ldr r1, [r1, #52] //GPLEV0
   mov r3, #1
   lsl r3, r0 //align to Data (pin 10)
   and r1, r3 //mask everything
   teq r1, #0
-  moveq r4, #0 //return 0
-  movne r4, #1 //return 1
+  moveq r0, #0 //return 0
+  movne r0, #1 //return 1
 
-  mov r4, r0
   mov pc, lr //ret
 
 Read_SNES:
   mov pc, lr //ret
 
 
-
-
-
-HaltLoop:
-  b HaltLoop
+haltLoop:
+  b haltLoop
 
 .section .Data
 
