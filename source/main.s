@@ -60,7 +60,20 @@ main:
   ldr		r0, =gpioBaseAddress
   ldr		gBase, [r0]
 
-  
+//init Data
+  mov r0, #9
+  mov r1, #1
+  bl Init_GPIO
+
+//init Latch
+  mov r0, #10
+  mov r1, #0
+  bl Init_GPIO
+
+//init Clock
+  mov r0, #11
+  mov r1, #1
+  bl Init_GPIO
 
 
 
