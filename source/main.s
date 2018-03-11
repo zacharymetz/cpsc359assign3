@@ -73,6 +73,7 @@ main:
   bl Init_GPIO
 
 Init_GPIO:
+  mov r3, r0 //move pin number to r3
   div r0, #10
   mul r0, #4
 
@@ -81,7 +82,11 @@ Init_GPIO:
   add gBase, gBase, r0
 
   mov r2, #7 //b0111
+  mul r3, #3 //multiply by 3 for first bit
+  lsl r2, r3
+  bic gBase, r2
 
+  mov pc, lr //ret
 
 
 
