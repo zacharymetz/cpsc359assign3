@@ -142,6 +142,46 @@ Write_Clock:
   mov pc, lr // return
 
 Read_SNES:
+  mov r10, #0 //register sampling Button
+
+  mov r1, #1 //input
+  bl Write_Clock
+
+  mov r1, #1 //input
+  bl Write_Latch
+
+  mov r0, #12
+  bl delayMicroseconds
+
+  mov r1, #0 //input
+  bl Write_Latch
+
+  mov r9, #0 //loop counter
+
+  ClockLoop:
+    mov r0, #6
+    bl delayMicroseconds
+
+    mob r1, #1 //input
+    bl Write_Clock
+
+    mov r0, #6
+    bl delayMicroseconds
+
+    bl Read_Data
+
+    add r10, r10, r0 //add 1 or 0 to buttons
+    lsl r10, #1 //shift 1 over
+
+    mov r1, #1
+    bl Write_Clock
+
+    add r9, r9, #1 //incrememnt loop counter
+    cmp r9, #16
+    blt ClockLoop
+
+  mov r0, r10 //return pressed buttons
+  mov pc, lr
 
 
 
