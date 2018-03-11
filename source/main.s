@@ -1,6 +1,5 @@
 //This program was created by Zheyu Jeremy Ying (30002931) and Zachary Metz (30001506)
 
-
 @ Data section
 .section    .data
 
@@ -49,17 +48,18 @@ ButtonRight:
 ButtonLeft:
   .asciz "LEFT bumper"
 
-
-
-
-
-
-
-
-
 @ Code section
 .section    .text
 
 .align 4
 .global main
 main:
+  ldr r0, =Names
+  bl printf
+
+
+
+
+
+HaltLoop:
+  b HaltLoop

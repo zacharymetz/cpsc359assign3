@@ -1,15 +1,19 @@
+###############################################################################
+#	makefile
+#	by Mohamad Elzohbi.
+#
+#	A makefile script for building mixed C & Assembly programs RPI3
+###############################################################################
 
-# Makefile script for building mixed C & assembly programs CPSC359/RPi3
-# by Mohamad Elzohbi.
 
-
-# Compiled object files directory.
+# The intermediate directory for compiled object files.
 BUILD = build/
 
-# Source files directory.
+# The directory in which source files are stored.
 SOURCE = source/
 
-# Object files to be generated from source.
+# The names of all object files that must be generated. Deduced from the 
+# assembly code files in source.
 OBJECTS := $(patsubst $(SOURCE)%.s,$(BUILD)%.o,$(wildcard $(SOURCE)*.s))
 COBJECTS := $(patsubst $(SOURCE)%.c,$(BUILD)%.o,$(wildcard $(SOURCE)*.c))
 
@@ -25,7 +29,6 @@ $(BUILD)%.o: $(SOURCE)%.c
 	gcc -g -c -O1 -Wall -I $(SOURCE) $< -o $@
 
 # Rule to clean files.
-clean: 
+clean : 
 	-rm -f $(BUILD)*.o myProg
-
 
