@@ -80,24 +80,43 @@ main:
     bl printf
 
   ButtonCheck:
+
+    ldr r0, =tOne
+    bl printf
+
+
     bl Read_SNES
-    cmp r0, #0xFFFF
+
+      ldr r0, =tTwo
+      bl printf
+
+    mov r0, r8
+    ldr r1, =HexF
+    ldr r1, [r1]
+    cmp r8, r1
     beq ButtonCheck
 
     mov r10, #0
     ButtonPress:
-      ands wzr, r0, #0x1
-      beq //last digit 0
+
+      ldr r0, =tThree
+      bl printf
+
+
+      ands r9, r8, #0x1
+      bne NotPressed//last digit 1
+
+      //beq //last digit 0
       mov r0, r10
       bl printPressed
       b ButtonPressLoopCheck
 
-      bne //last digit 1
-      add r10, r10, #1 //loop counter
-      b ButtonPressLoopCheck
+      NotPressed:
+        add r10, r10, #1 //loop counter
+        b ButtonPressLoopCheck
 
       ButtonPressLoopCheck:
-        cmp r10, 16
+        cmp r10, #16
         blt ButtonPress
 
         b PrintInputPrompt
@@ -106,7 +125,8 @@ main:
 
   //array index in r0
   printPressed:
-    push {lr}
+    PUSH {lr}
+    mov r5, lr
     mov r0, r1
     ldr r0, =buttonPress_m
     ldr r0, [r0, r1] //load at offset
@@ -123,7 +143,8 @@ main:
 
     NotStart:
 
-    pop {lr}
+
+    POP {lr}
     mov pc, lr
 
 
@@ -182,7 +203,7 @@ main:
   Write_Clock:
     //load base address of pin 11
     ldr r2, =gpioBaseAddress
-    add r2, 4 // add the offset
+    add r2, #4 // add the offset
     mov r3, #1
     lsl r3, #2 // align bit for pin#11 (11-9=2)
     teq r1, #0
@@ -192,7 +213,8 @@ main:
     mov pc, lr // return
 
   Read_SNES:
-    push {lr}
+    PUSH {lr}
+
     mov r10, #0 //register sampling Button
 
     mov r1, #1 //input
@@ -213,7 +235,7 @@ main:
       mov r0, #6
       bl delayMicroseconds
 
-      mob r1, #1 //input
+      mov r1, #1 //input
       bl Write_Clock
 
       mov r0, #6
@@ -233,10 +255,7 @@ main:
 
     mov r0, r10 //return pressed buttons
 
-    pop {lr}
-
-
-
+    POP {lr}
 
     mov pc, lr //ret
 
@@ -250,4 +269,15 @@ haltLoop:
   gpioBaseAddress:
   	.int	0
 
+  HexF:
+    .word 0xFFFF
+
   buttonPress_m: .word ButtonB, ButtonY, ButtonSelect, ButtonStart, JoyPadUp, JoyPadDown, JoyPadLeft, JoyPadRight, ButtonA, ButtonX, ButtonLeft, ButtonRight
+
+.text
+tOne:
+  .asciz "Start buttonCheck\n"
+tTwo:
+  .asciz "return Read_SNES\n"
+tThree:
+  .asciz "start buttonPress\n"
