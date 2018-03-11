@@ -57,23 +57,38 @@ main:
 	ldr		r1, =gpioBaseAddress
 	str		r0, [r1]
 
-  ldr		r0, =gpioBaseAddress
-  ldr		gBase, [r0]
-
 //init Data
-  mov r0, #9
+  mov r0, #9 //pin
   mov r1, #1
   bl Init_GPIO
 
 //init Latch
-  mov r0, #10
+  mov r0, #10 //pin
   mov r1, #0
   bl Init_GPIO
 
 //init Clock
-  mov r0, #11
+  mov r0, #11 //pin
   mov r1, #1
   bl Init_GPIO
+
+Init_GPIO:
+  div r0, #10
+  mul r0, #4
+
+  ldr	r7, =gpioBaseAddress
+  ldr	gBase, [r7]
+  add gBase, gBase, r0
+
+  mov r2, #7 //b0111
+
+
+
+
+
+
+
+  mov pc, lr //ret
 
 
 
